@@ -1,0 +1,20 @@
+name: docs
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  docs-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify docs assets exist
+        run: |
+          test -f README.md
+          test -f docs/research_report.md
+          test -f docs/interviewer_briefing.md
+          test -d docs/figures

@@ -1,0 +1,22 @@
+name: ml_core
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - pandas
+  - numpy
+  - scipy
+  - statsmodels
+  - scikit-learn
+  - pyarrow
+  - duckdb
+  - polars
+  - lightgbm
+  - xgboost
+  - pip
+  - pip:
+      - wrds
+      - linearmodels
+      - plotly
+      - dash
+      - dash-cytoscape

@@ -1,0 +1,31 @@
+horizons_trading_days: [1, 2, 5, 10, 20]
+
+node_features:
+  - ret_mom_21d
+  - ret_mom_126d
+  - beta_252d
+  - idio_vol_63d
+  - log_mktcap
+  - book_to_market
+  - profitability
+  - analyst_coverage
+  - liquidity_proxy
+  - own_news_intensity
+
+edge_features:
+  - direction
+  - revenue_share
+  - edge_persistence
+  - disclosure_recency
+  - relationship_age
+  - customer_hhi
+  - supplier_hhi
+
+shock_features:
+  - one_hop_signed_sentiment
+  - two_hop_signed_sentiment
+  - novelty_weighted_shock
+  - event_category_shock
+  - shock_decay
+  - neighbourhood_shock_dispersion
+  - top_counterparty_shock_concentration

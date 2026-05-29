@@ -1,0 +1,38 @@
+project:
+  name: production-network-alpha
+  title: "Trading the Production Network"
+  timezone_market: America/New_York
+  sample_start: "2015-01-01"
+  sample_end: "2025-12-31"
+
+wrds:
+  use_pgpass: true
+  raw_vendor_data_committed: false
+
+datasets:
+  supply_chain:
+    preferred_sources:
+      - wrdsapps_link_supplychain
+      - comp_segments_hist_daily
+    point_in_time: true
+  news:
+    preferred_sources:
+      - ravenpack_dj
+      - ravenpack_common
+    deduplicate_same_article_entity: true
+  returns:
+    preferred_sources:
+      - crsp_stock
+      - crsp_ccm
+    delisting_returns: true
+  fundamentals:
+    preferred_sources:
+      - comp_na_daily_all
+  attention:
+    preferred_sources:
+      - tr_ibes
+      - wrdsapps_link_crsp_ibes
+  costs:
+    preferred_sources:
+      - contrib_liquidity_taq
+      - taq

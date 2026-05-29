@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+
+# Environments and secrets
+.env
+.env.*
+.venv/
+venv/
+*.pem
+*.key
+.pgpass
+wrds_credentials*
+
+# Raw/vendor/protected data: never commit
+/data/raw/*
+/data/interim/*
+/data/processed/*
+/data/protected/*
+!/data/raw/.gitkeep
+!/data/interim/.gitkeep
+!/data/processed/.gitkeep
+!/data/protected/.gitkeep
+
+# Heavy/generated private artifacts
+/artifacts/processed/*
+/artifacts/model_runs/*
+/artifacts/logs/*
+/logs/*
+
+# Binary data containers
+*.parquet
+*.feather
+*.arrow
+*.pickle
+*.pkl
+*.sqlite
+*.db
+*.h5
+*.hdf5
+
+# Local editor/system
+.DS_Store
+.vscode/
+.idea/

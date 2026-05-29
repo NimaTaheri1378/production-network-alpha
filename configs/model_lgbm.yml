@@ -1,0 +1,11 @@
+model:
+  family: lightgbm
+  objective: regression
+  n_jobs: 32
+  deterministic: true
+  seed: 20260528
+
+tuning:
+  trials: 64
+  metric: rank_ic
+  walk_forward: true

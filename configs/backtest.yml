@@ -1,0 +1,17 @@
+validation:
+  train: ["2015-01-01", "2019-12-31"]
+  validation: ["2020-01-01", "2021-12-31"]
+  test: ["2022-01-01", "2025-12-31"]
+  embargo_days_by_horizon: true
+
+portfolio:
+  rebalance: daily
+  long_bucket: top_decile
+  short_bucket: bottom_decile
+  sector_neutral: true
+  beta_neutral: true
+  max_gross_leverage: 1.0
+
+costs:
+  include_spread_proxy: true
+  include_turnover_drag: true

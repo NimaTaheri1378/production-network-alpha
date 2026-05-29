@@ -1,0 +1,12 @@
+model:
+  family: temporal_graph_network
+  backend: pytorch
+  seed: 20260528
+  use_gpu: true
+  devices: [0, 1]
+
+training:
+  batch_size: 4096
+  max_epochs: 50
+  early_stopping_patience: 8
+  mixed_precision: true

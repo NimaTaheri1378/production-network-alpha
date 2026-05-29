@@ -1,0 +1,28 @@
+{
+  "generated_at_utc": "2026-05-29T03:28:49Z",
+  "validation_passed": true,
+  "decision": {
+    "status": "research_candidate_not_yet_production",
+    "selected_model": "lightgbm",
+    "selected_horizon_days": 5,
+    "selected_rebalance_variant": "twice_weekly_mon_thu",
+    "cost_bps": 10.0,
+    "annualized_sharpe": 0.724168634499961,
+    "cumulative_return": 0.2884521011109859,
+    "max_drawdown": -0.1180349877346893,
+    "hac_tstat": 1.2797098484580194,
+    "positive_sharpe_years": 3,
+    "min_year_sharpe": 0.0832672788440967,
+    "bootstrap_prob_sharpe_positive": 0.95,
+    "recommendation": "Use as research/README headline, not live production, until bootstrap/placebo/sector-neutral and capacity diagnostics pass."
+  },
+  "n_phase6_3_candidates": 10,
+  "n_bootstrap_rows": 10,
+  "n_figures_created": 5,
+  "source_artifacts": {
+    "phase5_1": "<repo-root>/artifacts/modeling_full",
+    "phase6_1": "<repo-root>/artifacts/backtest_full",
+    "phase6_3": "<repo-root>/artifacts/backtest_turnover_full"
+  },
+  "data_policy": "Aggregate-only report; protected Parquet and raw vendor records are not included."
+}
