@@ -5,10 +5,7 @@
 </p>
 
 <p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-blue">
-  <img alt="Status" src="https://img.shields.io/badge/status-research%20candidate-not%20live%20trading-orange">
-  <img alt="Data" src="https://img.shields.io/badge/data-public%20repo%20uses%20synthetic%20%2B%20aggregate%20outputs-green">
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey">
+  <b>Python 3.12 · Research candidate · Public-safe synthetic/aggregate release · MIT License</b>
 </p>
 
 <p align="center">
