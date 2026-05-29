@@ -50,3 +50,6 @@ wrds_credentials*
 .DS_Store
 .vscode/
 .idea/
+
+# Local README backups
+README.md.backup_*

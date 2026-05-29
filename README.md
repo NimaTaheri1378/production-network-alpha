@@ -1,68 +1,184 @@
-# Trading the Production Network
+# Production Network Alpha
 
-**Research question:** Do machine-readable news shocks to one firm forecast abnormal returns of economically connected firms through point-in-time production-network links?
+<p align="center">
+  <b>Research-grade equity signal pipeline for testing whether firm news propagates through point-in-time supply-chain links into connected-stock return predictability.</b>
+</p>
 
-This repository contains a research-grade, leakage-aware production-network equity pipeline. It builds point-in-time supplier--customer graphs, maps RavenPack Dow Jones firm news into market-usable shock dates, constructs CRSP abnormal-return labels, compares transparent baselines with LightGBM, and evaluates long-short portfolios net of turnover costs.
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-blue">
+  <img alt="Status" src="https://img.shields.io/badge/status-research%20candidate-not%20live%20trading-orange">
+  <img alt="Data" src="https://img.shields.io/badge/data-public%20repo%20uses%20synthetic%20%2B%20aggregate%20outputs-green">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey">
+</p>
+
+<p align="center">
+  <img src="docs/figures/phase7_0_cumulative_top_candidates_10bps.png" alt="Cumulative return of top candidates at 10 bps costs" width="860">
+</p>
+
+## Executive summary
+
+This repository is a public-safe version of a full-stack empirical asset-pricing project. The private research pipeline builds a point-in-time supplier–customer graph, maps machine-readable firm news into graph-aware shocks, constructs CRSP-style forward-return labels, trains transparent and nonlinear models, and evaluates cost-aware long/short portfolios.
+
+The final result is intentionally framed as a **research candidate**, not a deployed or live trading system. The public repo contains code, documentation, aggregate result tables, figures, and a synthetic demo. Raw WRDS/vendor data and protected local Parquet caches are excluded.
+
+## Research question
+
+> When a firm receives a material news shock, do economically connected firms exhibit delayed abnormal returns that can be forecast from the direction, intensity, and network location of that shock?
+
+The economic intuition is that supply-chain relationships create real exposure. A supplier shock can affect customers through input costs, delays, and production risk; a customer shock can affect suppliers through demand, margins, and bargaining power. The project tests whether markets process these second-order implications slowly enough to create measurable connected-equity predictability.
 
 ## Headline result
 
-Status: **research candidate; not a deployed/live trading system**.
+| Item | Public release value |
+|---|---:|
+| Selected research candidate | LightGBM, 5-day horizon, twice-weekly rebalance |
+| Out-of-sample period | 2022–2024 |
+| Cost assumption | 10 bps one-way turnover cost |
+| Net abnormal Sharpe | 0.724 |
+| Cumulative net abnormal return | 28.85% |
+| Max drawdown | -11.80% |
+| HAC t-stat | 1.28 |
+| Positive Sharpe years | 3 / 3 |
+| Decision status | Research candidate; not production/live trading |
 
-Selected research candidate:
+The statistical evidence is economically interesting but not strong enough to claim a production-ready strategy. That is the point: the repo emphasizes disciplined data engineering, leakage control, model comparison, cost-aware validation, and honest research judgment.
 
-```text
-Model:                  lightgbm
-Forecast horizon:       5 trading days
-Rebalance rule:         twice_weekly_mon_thu
-One-way cost:           10.0 bps
-Out-of-sample period:   2022--2024
-Annualized Sharpe:      0.724
-Cumulative return:      28.85%
-Max drawdown:           -11.80%
-HAC t-stat:             1.280
+## Visual results
+
+<table>
+<tr>
+<td width="50%">
+  <img src="docs/figures/phase7_0_phase6_3_10bps_net_sharpe_ranking.png" alt="Net Sharpe ranking at 10 bps" width="100%">
+  <br><b>Cost-aware candidate ranking.</b><br>
+  Low-turnover LightGBM variants dominate after transaction costs.
+</td>
+<td width="50%">
+  <img src="docs/figures/phase7_0_bootstrap_sharpe_ci.png" alt="Bootstrap Sharpe confidence interval" width="100%">
+  <br><b>Bootstrap uncertainty.</b><br>
+  The selected candidate is positive in the bootstrap distribution, but uncertainty remains meaningful.
+</td>
+</tr>
+<tr>
+<td width="50%">
+  <img src="docs/figures/phase7_0_yearly_sharpe_top_candidates.png" alt="Yearly Sharpe top candidates" width="100%">
+  <br><b>Year-by-year robustness.</b><br>
+  The selected family is positive across 2022–2024, but performance is not uniform.
+</td>
+<td width="50%">
+  <img src="docs/figures/phase7_0_top_lgbm_features.png" alt="Top LightGBM features" width="100%">
+  <br><b>Model explainability.</b><br>
+  The strongest predictors combine propagated news shocks, network exposure, and firm-level controls.
+</td>
+</tr>
+</table>
+
+## Pipeline architecture
+
+```mermaid
+flowchart LR
+    A[Point-in-time supply-chain graph] --> D[Graph-aware spillover features]
+    B[Machine-readable firm news] --> C[Entity-level news shocks]
+    C --> D
+    E[Daily equity returns and labels] --> F[Leakage-aware model matrix]
+    D --> F
+    F --> G[Raw score / Ridge benchmark]
+    F --> H[LightGBM challenger]
+    G --> I[Cost-aware portfolio validation]
+    H --> I
+    I --> J[Robustness and release decision]
 ```
 
-This is a positive research result intended to demonstrate a full-stack quantitative research process. It is not presented as a deployed trading system; the next credibility checks are placebo edges, sector/beta neutrality, capacity, slippage, and paper-trading.
+## What is public here
 
-## Public contents
+| Component | Included? | Notes |
+|---|---:|---|
+| Research code structure | Yes | Package layout, scripts, tests, examples |
+| Figures | Yes | Aggregate, public-safe result figures |
+| Aggregate result tables | Yes | No row-level vendor data |
+| Synthetic demo data | Yes | Generated locally from `examples/synthetic_demo` |
+| Raw WRDS / RavenPack / CRSP data | No | Excluded by policy |
+| Local credentials or cluster logs | No | Excluded and scanned before release |
 
-- `docs/research_report.md` — paper-style report
-- `docs/interviewer_briefing.md` — two-page project pitch
-- `docs/figures/` — generated public figures
-- `artifacts/release_public/` — aggregate public CSV/JSON summaries
-- `examples/synthetic_demo/` — synthetic data smoke test with no vendor records
-- `src/production_network_alpha/` — reusable package code
+## Public aggregate tables
 
-## Data policy
+The public-safe aggregate tables are in:
 
-Raw WRDS/vendor data are **not** committed. Protected local files under `data/raw`, `data/interim`, `data/processed`, and heavy model/backtest Parquet outputs are ignored by Git. Public artifacts are aggregate-only or synthetic.
+```text
+artifacts/release_public/
+```
 
-## Quick public demo
+Key files:
+
+```text
+phase7_0_10bps_candidate_ranking.csv
+phase7_0_bootstrap_robustness.csv
+phase7_0_phase6_1_vs_6_3_comparison.csv
+phase7_0_validation_diagnostics.csv
+phase7_0_yearly_top_candidates.csv
+```
+
+## Quickstart: run the synthetic demo
+
+The public demo does not require WRDS or vendor data.
 
 ```bash
 python examples/synthetic_demo/run_synthetic_demo.py
 ```
 
-## Local dashboard
+Expected output:
 
-```bash
-python -m production_network_alpha.dashboard.public_results_app
+```text
+synthetic_demo_rows 3200
+synthetic_demo_r2 0.071327
+synthetic_demo_coef [...]
 ```
 
-## Reproduction overview
+## Repository map
 
-The private full pipeline was run phase-by-phase:
+```text
+production-network-alpha/
+├── README.md
+├── DATA_POLICY.md
+├── docs/
+│   ├── research_report.md
+│   ├── interviewer_briefing.md
+│   ├── release_notes.md
+│   └── figures/
+├── artifacts/
+│   └── release_public/
+├── examples/
+│   └── synthetic_demo/
+├── src/
+│   └── production_network_alpha/
+├── scripts/
+├── tests/
+└── .github/workflows/
+```
 
-1. WRDS schema discovery
-2. point-in-time supply-chain graph construction
-3. RavenPack news shock extraction
-4. CRSP return labels and model matrix
-5. LightGBM modeling
-6. portfolio/backtest and turnover refinement
-7. robustness and production decision
+## Skills demonstrated
 
-The public repository includes scripts and aggregate artifacts, but not the protected vendor-derived Parquet files required to rerun private extraction.
+| Area | What this project demonstrates |
+|---|---|
+| Data engineering | WRDS-scale schema discovery, point-in-time joins, protected local caches |
+| Financial ML | Leakage-aware labels, walk-forward validation, rank IC, decile tests |
+| Network science | Directed supplier–customer graph features and propagated shocks |
+| NLP / alternative data | Entity-level machine-readable news shocks |
+| Backtesting | Turnover-aware portfolios, transaction-cost frontiers, HAC diagnostics |
+| Release engineering | Public-safe packaging, synthetic demos, CI, data-policy discipline |
 
-## Public-release note
+## Data policy
 
-This repository is a recruiter-facing, public-safe release. It includes code, documentation, synthetic demo data, aggregate result tables, and generated figures. It intentionally excludes raw WRDS/vendor data, protected Parquet caches, credentials, and local cluster logs. The reported strategy is a research candidate, not a live trading system.
+This public repository intentionally excludes raw WRDS/vendor data, credentials, local cluster logs, and protected Parquet caches. See [`DATA_POLICY.md`](DATA_POLICY.md).
+
+## Status and next credibility checks
+
+This is a **research candidate**, not a deployed strategy. Before any real capital deployment, the next credibility checks would be:
+
+1. independent sample extension or third-party replication;
+2. deeper execution-cost modeling with liquidity and capacity constraints;
+3. broader placebo tests and alternative news/entity mappings;
+4. live paper-trading with frozen code and pre-registered decision rules.
+
+## License
+
+Code is released under the MIT License. Figures and documentation are intended for public research presentation only. Third-party data products are not redistributed.
